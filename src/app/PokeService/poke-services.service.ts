@@ -15,6 +15,7 @@ export class PokeServicesService {
 }
 export interface PokeName {
   count: number,
+  id:number,
   next: string,
   previous: string,
   results: []
@@ -25,10 +26,10 @@ export interface PokeResultName {
   sprites: sprites,
   species:species,
   stats:stats,
+  id:number,
   types:types
 }
 export interface sprites{
-  id:number,
   back_default:string;
   back_shiny:string;
   front_default:string;
@@ -45,6 +46,7 @@ export interface front_default {
 export interface species {
   name:string
   url: string,
+  
 }
 export interface stats {
   base_stat: number,

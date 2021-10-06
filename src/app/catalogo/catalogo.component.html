@@ -6,23 +6,40 @@
   
     <mat-paginator [length]="resultsLength" [pageSize]="20" ></mat-paginator>
   </table> -->
-<mat-grid-list cols="3" rowHeight="2:1">
-  <mat-grid-tile *ngFor="let poke of Pokemones">
-      <ng-container *ngIf="poke.sprites" >
-          <div *ngIf="poke.sprites.other['official-artwork'].front_default">
+  <div class="card">
+    <div class="card-body">
+
+<mat-grid-list cols="3" rowHeight="1:1">
+  <mat-grid-tile *ngFor="let poke of Pokemones;let i = index" [id]="poke.name+poke.id">
+    <ng-container *ngIf="poke.sprites" class="rounded">
+      <div class="container w-100">
+        <div class="m-auto text-center ">
+
+          <div class="">
+
             <img [src]="poke.sprites.other['official-artwork'].front_default" width="50%" alt="">
           </div>
-          <span>
-              {{poke.name}}
-              {{poke.sprites.id}}
-            </span>
-        </ng-container>
+          <div class="">
+            {{poke.name}}
+            
+          </div>
+          <div>
+            {{poke.id}}
+          </div>
+        </div>
+      </div>
+    </ng-container>
   </mat-grid-tile>
 </mat-grid-list>
-<button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+<div class="card-footer row justify-content-end">
+  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
     <mat-icon (click)="Next(false)">west</mat-icon>
   </button>
   
-<button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-  <mat-icon (click)="Next(true)">east</mat-icon>
-</button>
+  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+    <mat-icon (click)="Next(true)">east</mat-icon>
+  </button>
+</div>
+</div>
+</div>
+
