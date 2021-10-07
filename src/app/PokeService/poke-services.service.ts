@@ -21,13 +21,18 @@ export interface PokeName {
   results: []
 }
 export interface PokeResultName {
+  abilities:abilities[],
+  base_experience:string,
+  height:string,
+  moves:moves[],
+  weight:string,
   name: string,
   url: string,
   sprites: sprites,
   species:species,
   stats:stats,
   id:number,
-  types:types
+  types:types[]
 }
 export interface sprites{
   back_default:string;
@@ -46,7 +51,7 @@ export interface front_default {
 export interface species {
   name:string
   url: string,
-  
+
 }
 export interface stats {
   base_stat: number,
@@ -59,9 +64,22 @@ export interface stat {
 }
 export interface types {
   slot:number
-  type: typesType[],
+  type: typesType,
 }
 export interface typesType {
   name:string
   url: string,
+}
+export interface PokeColor{
+id : number,
+back: string,
+color:string
+}
+export interface abilities{
+  ability:typesType,
+  slot:number
+}
+export interface moves{
+move:typesType,
+
 }

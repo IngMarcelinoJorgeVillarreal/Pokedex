@@ -17,6 +17,17 @@ import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import {MatTabsModule} from '@angular/material/tabs';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import {MatTreeModule} from '@angular/material/tree';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollX: true
+};
 
 @NgModule({
   declarations: [
@@ -37,14 +48,25 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatTableModule,
     MatPaginatorModule,
     MatGridListModule,
-    NgbModule
+    NgbModule,
+    MatTabsModule,
+    FormsModule,
+    MatTreeModule,
+    NgxJsonViewerModule,
+    // PerfectScrollbarModule,
+    NgxDatatableModule,
     // MatToolbarRow
   ],
   exports:[
     
 
   ],
-  providers: [{provide:APP_CONFIG,useValue:AppConfig}],
+  providers: [{provide:APP_CONFIG,useValue:AppConfig},
+  //   {
+  //   provide: PERFECT_SCROLLBAR_CONFIG,
+  //   useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+  // }
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

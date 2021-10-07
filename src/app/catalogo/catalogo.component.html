@@ -6,40 +6,207 @@
   
     <mat-paginator [length]="resultsLength" [pageSize]="20" ></mat-paginator>
   </table> -->
-  <div class="card">
-    <div class="card-body">
+<mat-toolbar *ngIf="!Detail && !profi">
+  <div class="m-auto">
+    <mat-icon svgIcon="Pokeball" class="pointer" data-toggle="tooltip" data-placement="bottom" title="Profile" (click)="Profile()"></mat-icon>
+    <span>Pokeweak</span>
+  </div>
+  <span class="spacer"></span>
+  <!-- <button mat-icon-button class="favorite-icon" aria-label="Example icon-button with heart icon">
+      <mat-icon>stacked_bar_chart</mat-icon>
+    </button>
+    <button mat-icon-button class="" aria-label="Example icon-button with share icon">
+      <mat-icon svgIcon="PokeEgg" aria-hidden="false" aria-label="Example thumbs up SVG icon"></mat-icon>
+   </button> -->
+  <input *ngIf="ActiveSearch" type="text" class="form-control w-50 " placeholder="Type to filter..."
+    (keyup)="filter($event)">
+  <button mat-icon-button class="favorite-icon pointer" (click)="ActiveSearch = !ActiveSearch">
+    <mat-icon>search</mat-icon>
+  </button>
+</mat-toolbar>
+<div class="card animated fadeIn" *ngIf="!Detail && !profi">
+  <div class="card-body">
+    <mat-grid-list cols="3" rowHeight="1:1" *ngIf="Pokemones ">
+      <mat-grid-tile *ngFor="let poke of Pokemones;let i = index" [id]="poke.name+poke.id" (click)="Details(poke.url)">
+        <ng-container *ngIf="poke.sprites" class="rounded">
+          <div class="container w-100 h-100">
+            <div class="m-auto text-center ">
+              <div class="align-text-bottom" *ngFor="let y of MoreInfo">
+                <h5 class="badge badge-pill badge-light border"
+                  *ngIf="y['id']=== poke.id && (y['color']['name'] === 'white' || y['color']['name'] === 'yellow')  else Else"
+                  [ngStyle]="{'background-color': y['color']['name'] }">{{poke.types[0].type.name}}</h5>
+                <ng-template #Else>
+                  <h5 class="badge badge-pill text-light" *ngIf="y['id']=== poke.id"
+                    [ngStyle]="{'background-color': y['color']['name'] }">{{poke.types[0].type.name}}</h5>
 
-<mat-grid-list cols="3" rowHeight="1:1">
-  <mat-grid-tile *ngFor="let poke of Pokemones;let i = index" [id]="poke.name+poke.id">
-    <ng-container *ngIf="poke.sprites" class="rounded">
-      <div class="container w-100">
-        <div class="m-auto text-center ">
+                </ng-template>
+              </div>
+              <div class="mt-0">
 
-          <div class="">
+                <img [src]="poke.sprites.other['official-artwork'].front_default"  class="pointer" width="50%" alt="">
+              </div>
+              <div class="">
+                {{poke.name}}
 
-            <img [src]="poke.sprites.other['official-artwork'].front_default" width="50%" alt="">
+              </div>
+              <div>
+                #{{poke.id}}
+              </div>
+            </div>
           </div>
-          <div class="">
-            {{poke.name}}
-            
-          </div>
-          <div>
-            {{poke.id}}
-          </div>
+        </ng-container>
+      </mat-grid-tile>
+    </mat-grid-list>
+    <div class="card-footer row justify-content-end">
+      <button mat-icon-button class="favorite-icon" *ngIf="Poke.previous">
+        <mat-icon (click)="Next(false)">west</mat-icon>
+      </button>
+
+      <button mat-icon-button class="favorite-icon">
+        <mat-icon (click)="Next(true)">east</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+<ng-container class="animated fadeIn" *ngIf="colorBackInfo && Detail && !profi">
+
+  <div class="card h-100 w-100 rounded-0" [ngStyle]="{'background-color': colorBackInfo, 'color': colorInfo }">
+    <div class="card h-100 w-100" [ngStyle]="{'background-color': colorBackInfo, 'color': colorInfo }">
+
+      <div class="card-header">
+        <!-- <div>
+      <h1  class="text-center">{{PokemonInfo.name}}</h1>
+    </div> -->
+        <div class="d-flex justify-content-end pointer">
+          <mat-icon (click)="Close()">
+            close
+          </mat-icon>
         </div>
       </div>
-    </ng-container>
-  </mat-grid-tile>
-</mat-grid-list>
-<div class="card-footer row justify-content-end">
-  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-    <mat-icon (click)="Next(false)">west</mat-icon>
-  </button>
-  
-  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-    <mat-icon (click)="Next(true)">east</mat-icon>
-  </button>
-</div>
-</div>
-</div>
+      <div class="card-body">
+        <h1 class="text-center font-weight-bold">{{PokemonInfo.name.toUpperCase()}}</h1>
+        <!-- <p class="card-text text-center" *ngFor="">{{PokemonInfo.types[0].type.name}}</p> -->
+        <div class="d-flex justify-content-center">
 
+          <p class="font-italic" *ngFor="let type of PokemonInfo.types">{{type.type.name}} &nbsp;</p>
+        </div>
+
+        <div class="d-flex justify-content-center">
+          <img [src]="PokemonInfo.sprites.other['official-artwork'].front_default" width="25%" alt="">
+
+        </div>
+        <div class="d-flex justify-content-center">
+          <div class="card-body h-100">
+            <!-- <mat-tab-group mat-align-tabs="start">
+        <mat-tab label="First">Content 1</mat-tab>
+        <mat-tab label="Second">Content 2</mat-tab>
+        <mat-tab label="Third">Content 3</mat-tab>
+      </mat-tab-group> -->
+
+
+            <!-- <ul ngbNav #nav="ngbNav" class="nav nav-tabs scroll-menu bg-dark">
+        <li ngbNavItem class="nav-item " *ngFor="let poke of PokemonInfo | keyvalue">
+          <a ngbNavLink >{{poke.key}}</a>
+          <ng-template ngbNavContent class="bg-dark">
+            <div class="container bg-dark" *ngFor="let po of poke.key | keyvalue">
+              <div class="row" >
+                <div class="col-sm">
+                  {{po.key}}
+
+                </div>
+                <div class="col-sm">
+                  {{po.value}}
+
+                </div>
+              </div>
+            </div>
+
+          </ng-template>
+        </li>    
+      </ul>
+      <div [ngbNavOutlet]="nav"></div> -->
+      <!-- <ul ngbNav #nav="ngbNav" class="nav-tabs">
+        <li *ngFor="let col of PokemonInfo.abilities ;let i = index" [ngbNavItem]="i">
+          <a ngbNavLink *ngFor="let cols of col | keyvalue let i = index">
+            <p *ngIf="cols.key === 'ability'">{{cols.key}}</p>
+
+          </a>
+          <a ngbNavLink *ngFor="let cols of col | keyvalue let i = index">{{cols.key}}</a>
+          <ng-template ngbNavContent>
+          <p>{{col.ability.name}}</p>
+          </ng-template>
+        </li>
+      </ul>
+      
+      <div [ngbNavOutlet]="nav" class="mt-2"></div> -->
+      <div id="PokeStats" class="w-75 card">
+        <!-- <ngx-json-viewer [json]="PokemonInfo.stats" [depth]="3"></ngx-json-viewer> -->
+         <ngx-json-viewer [json]="PokemonInfo.abilities"[depth]="3"></ngx-json-viewer>
+        <!-- <ngx-json-viewer [json]="PokemonInfo.moves"[depth]="3"></ngx-json-viewer> --> 
+      </div>
+      <div data-spy="scroll" data-target="#PokeStats" data-offset="0"></div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="profi">
+  <div class="card animated fadeIn ">
+    
+      <div class="card-header">
+        <div class="d-flex justify-content-end pointer">
+          <mat-icon (click)="CloseP()">
+            close
+          </mat-icon>
+        </div>
+      </div>
+      <div class="card-body">
+        <h1 class="text-center font-weight-bold text-uppercase">Entrenador pokemon</h1>
+        <div class="d-flex justify-content-center">
+
+          <h2 class="font-italic" > Jorge</h2>
+        </div>
+
+        <div class="d-flex justify-content-center p-3">
+          <img src="./../../assets/images/perfil.jpeg" width="25%" class="rounded-circle">
+
+        </div>   
+        <div class="d-flex justify-content-center">
+          <div class="card">            
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <th scope="row">Nombre</th>
+              <td>Jorge Villarreal Leal</td>
+            </tr>          
+            <tr>
+              <th scope="row">Edad</th>
+              <td>23</td>
+            </tr>          
+            <tr>
+              <th scope="row">Origen</th>
+              <td>Monterrey N.L. México</td>
+            </tr>    
+            <tr>
+              <th scope="row">Medallas </th>
+              <td>10</td>
+            </tr>  
+            <tr>
+              <th scope="row">Nivel</th>
+              <td>23</td>
+            </tr> 
+            <tr>
+              <th scope="row">Pokedex completado</th>
+              <td>20%</td>
+            </tr>          
+          </tbody>
+        </table>
+      </div>
+      </div>
+      </div>
+
+    </div>
+</ng-container>

@@ -1,0 +1,25 @@
+.spacer {
+    flex: 1 1 auto;
+  }
+  .mat-tab-label-content{
+    color: white !important;
+  }
+  .scroll-menu {
+    background-color: #333;
+    overflow:auto;
+    white-space: nowrap;
+  }
+  
+  .scroll-menu.li a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px;
+    text-decoration: none;
+  }
+.nav {
+  display: block !important;
+}
+.pointer{
+  cursor: pointer;
+}

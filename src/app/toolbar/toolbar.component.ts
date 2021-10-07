@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PokeServicesService } from '../PokeService/poke-services.service';
@@ -13,7 +13,10 @@ var P = new Pokedex();
   styleUrls: ['./toolbar.component.scss']
 })
 export class ToolbarComponent implements OnInit {
-
+  ActiveSearch:boolean = false;
+  Text:string="";
+  @Output() SendText= new EventEmitter<string>();
+  
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, public PokeService: PokeServicesService){
     iconRegistry.addSvgIconLiteral('Pokeball', sanitizer.bypassSecurityTrustHtml(Pokeball));
     iconRegistry.addSvgIconLiteral('PokeEgg', sanitizer.bypassSecurityTrustHtml(PokeEgg));
@@ -34,5 +37,22 @@ export class ToolbarComponent implements OnInit {
 //       console.log('There was an ERROR: ', error);
 //     });
   }
-
+filter(event:KeyboardEvent){  
+  switch (event.code) {
+    case "Backspace":
+      if(this.Text.length > 0){
+        console.log("Entro");
+      // this.Text.slice(0, -1)
+      this.Text = this.Text.substring(0,this.Text.length -1);
+    }
+      break;
+      case "Key"+event.key.toUpperCase():
+        this.Text += event.key;
+        break;
+        
+    default:
+      break;
+  }
+  this.SendText.emit(this.Text);
+}
 }
